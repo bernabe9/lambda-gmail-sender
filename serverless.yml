@@ -21,4 +21,6 @@ functions:
       - http:
           path: send
           method: post
-          cors: true
+          cors:
+            origin: ${file(./config.yml):${opt:stage, self:provider.stage}.ALLOW_ORIGIN}
+            allowCredentials: false
