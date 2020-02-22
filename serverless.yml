@@ -12,6 +12,7 @@ provider:
     FROM: ${file(./config.yml):${opt:stage, self:provider.stage}.FROM}
     TO: ${file(./config.yml):${opt:stage, self:provider.stage}.TO}
     CC: ${file(./config.yml):${opt:stage, self:provider.stage}.CC}
+    WEBHOOK: ${file(./config.yml):${opt:stage, self:provider.stage}.WEBHOOK}
 
 functions:
   send:

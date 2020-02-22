@@ -1,5 +1,6 @@
 "use strict";
 const nodemailer = require("nodemailer");
+const axios = require("axios");
 
 const generateResponse = (code, payload) => ({
   statusCode: code,
@@ -40,6 +41,24 @@ module.exports.handler = async event => {
     subject: params.subject,
     text: params.text
   };
+
+  // call webhook
+  if (process.env.WEBHOOK) {
+    await axios({
+      url: process.env.WEBHOOK,
+      method: "POST",
+      data: {
+        attachments: [
+          {
+            pretext: "New message from the website!",
+            title: params.subject,
+            text: params.text
+          }
+        ]
+      },
+      headers: { "Content-Type": "application/json" }
+    });
+  }
 
   try {
     await transport.sendMail(message);
